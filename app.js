@@ -9,7 +9,7 @@ app.get('/checks', function (req, res) {
     res.send('checks')
 })
 
-app.post('/accepts', function (req, res) {
+app.post(['/','/accepts'], function (req, res) {
   
     res.header('Access-Control-Allow-Origin', '*')
     res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS')
