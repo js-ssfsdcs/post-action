@@ -51,23 +51,31 @@ let mlem =  new Audio('./mlem.mp3');
 let rr = new Audio('./rr_sound_effect.mp3');
 let audio = mlem;
 
-function writeButtonText() {
-  const buttonText = $('#evil').is(':checked') ? 'really good song!' : 'more mlem sir';
-  $('button').html(buttonText);
+function writeButtonText(text) {
+  $('button').html(text);
+}
+
+function switchSounds() {
+  if ($('#evil').is(':checked')) {
+    writeButtonText('really good song!')
+    audio = rr;
+  }
+  else {
+    writeButtonText('more mlem sir');
+    audio = mlem;
+  } 
 }
 
 $('document').ready(function () {
-  writeButtonText();
+  switchSounds();
 
   $('#evil').change(function () {
-    writeButtonText();
+    switchSounds();
   })
 
   $('button').mousedown(function () {
     var colors = ['Green', 'Black', 'Orange','Chartreuse','Peru', 'PeachPuff', 'PapyaWhip','OliveDrab', 'Brown', 'Yellow', 'Salmon','Indigo', 'DarkSeaGreen','SkyBlue', 'MistyRose', 'Red', 'DarkGreen', 'Purple'];
     var color;
-    
-    audio = $('#evil').is(':checked') ? rr : mlem; 
 
     if (!audio.duration > 0 || audio.paused) {
       audio.play();
