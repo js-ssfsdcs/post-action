@@ -30,7 +30,12 @@
 <h1 style="color:sienna">When you need to mlem</h1>
 
 
-<button class="button">more mlem sir</button> 
+
+<div class="inline-block">
+  <button class="button" style="width: 135px;"></button> 
+  <input type="checkbox" name="evil" id="evil" style="margin-left: 45px">
+  <label for="evil">play song instead</label>
+</div>
 
 
 
@@ -42,13 +47,40 @@
 
 
 <script>
-const audio = new Audio('./rr_sound_effect.mp3');
+let mlem =  new Audio('./mlem.mp3');
+let rr = new Audio('./rr_sound_effect.mp3');
+let audio = mlem;
+
+function writeButtonText(text) {
+  $('button').html(text);
+}
+
+function switchSounds() {
+  if ($('#evil').is(':checked')) {
+    writeButtonText('really good song!')
+    audio = rr;
+  }
+  else {
+    writeButtonText('more mlem sir');
+    audio = mlem;
+  } 
+}
+
 $('document').ready(function () {
+  switchSounds();
+
+  $('#evil').change(function () {
+    switchSounds();
+  })
 
   $('button').mousedown(function () {
     var colors = ['Green', 'Black', 'Orange','Chartreuse','Peru', 'PeachPuff', 'PapyaWhip','OliveDrab', 'Brown', 'Yellow', 'Salmon','Indigo', 'DarkSeaGreen','SkyBlue', 'MistyRose', 'Red', 'DarkGreen', 'Purple'];
     var color;
-    audio.play();
+
+    if (!audio.duration > 0 || audio.paused) {
+      audio.play();
+    }
+
     for (var i=0; i<5; i++) {
       color = colors[Math.floor(Math.random() * colors.length)];
       $('#mlem').after('<h2 style="font-weight:bold;color:'+ color +'"><strong>mlem</strong></h2>');
