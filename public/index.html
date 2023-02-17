@@ -1,29 +1,32 @@
+<!DOCTYPE html>
 <head>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 
-<style>
-  .button {
-      margin-top: 10px;
-      margin-bottom: 20px;
-      background-color: blue;
-      border: none;
-      color: white;
-      padding: 10px 10px;
-      text-align: center;
-      text-decoration: none;
-      display: inline-block;
-      font-size: 14px;
-      cursor: pointer;
-      box-shadow: 10px 10px 5px #888888;
-      outline:none;
-  }
+  <title>MLEM SIR</title>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 
-  .button:active {
-      background-color: navy;
-      box-shadow: 0 5px;
-      transform: translateY(4px);
-  }
-</style>
+  <style>
+    button.mlem-button {
+        margin-top: 10px;
+        margin-bottom: 20px;
+        background-color: blue;
+        border: none;
+        color: white;
+        padding: 10px 10px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 14px;
+        cursor: pointer;
+        box-shadow: 10px 10px 5px #888888;
+        outline:none;
+    }
+
+    button:active {
+        background-color: navy;
+        box-shadow: 0 5px;
+        transform: translateY(4px);
+    }
+  </style>
 
 </head>
 
@@ -31,13 +34,13 @@
 <h1 style="color:sienna">When you need to mlem</h1>
 
 <div class="inline-block">
-  <button class="button" style="width: 135px;"></button> 
+  <button class="mlem-button" style="width: 135px;"></button> 
   <input type="checkbox" name="evil" id="evil" style="margin-left: 45px">
-  <label for="evil">play song instead</label>
+  <label for="evil"></label>
 </div>
 
 <div>
-	<img id="mlem-pic">
+	<img id="mlem-img">
 </div>
 
 <h1 id="mlem" style="color:green"></h1>
@@ -46,21 +49,31 @@
 <script type="module">
 import { TONGUE_OUT_IMG, TONGUE_IN_IMG } from './images.js';
 
-let mlem =  new Audio('./mlem.mp3');
-let rr = new Audio('./rr_sound_effect.mp3');
+const mlem =  new Audio('./mlem.mp3');
+const rr = new Audio('./rr_sound_effect.mp3');
 let audio = mlem;
 
 function writeButtonText(text) {
-  $('button').html(text);
+  $('button.mlem-button').html(text);
+}
+
+function writeCheckboxText(text) {
+  $('label[for=evil]').html(text);
+}
+
+function switchImgTo(img) {
+  $('#mlem-img').attr('src', img)
 }
 
 function switchSounds() {
   if ($('#evil').is(':checked')) {
     writeButtonText('really good song!')
+    writeCheckboxText('uncheck for mlem')
     audio = rr;
   }
   else {
     writeButtonText('more mlem sir');
+    writeCheckboxText('play song instead')
     audio = mlem;
   } 
 }
@@ -70,26 +83,26 @@ $('document').ready(function () {
 
   $('#evil').change(function () {
     switchSounds();
-  })
+  });
 
   $('button').mousedown(function () {
-    var colors = ['Green', 'Black', 'Orange','Chartreuse','Peru', 'PeachPuff', 'PapyaWhip','OliveDrab', 'Brown', 'Yellow', 'Salmon','Indigo', 'DarkSeaGreen','SkyBlue', 'MistyRose', 'Red', 'DarkGreen', 'Purple'];
-    var color;
+    const colors = ['Green', 'Black', 'Orange','Chartreuse','Peru', 'PeachPuff', 'PapyaWhip','OliveDrab', 'Brown', 'Yellow', 'Salmon','Indigo', 'DarkSeaGreen','SkyBlue', 'MistyRose', 'Red', 'DarkGreen', 'Purple'];
+    let color;
 
     if (!audio.duration > 0 || audio.paused) {
       audio.play();
     }
 
-    for (var i=0; i<5; i++) {
+    for (let i=0; i<5; i++) {
       color = colors[Math.floor(Math.random() * colors.length)];
-      $('#mlem').after('<h2 style="font-weight:bold;color:'+ color +'"><strong>mlem</strong></h2>');
+      $('#mlem').after(`<h2 style="font-weight:bold;color:${color}"><strong>mlem</strong></h2>`);
     }
     
-    $('#mlem-pic').attr('src', TONGUE_OUT_IMG);
+    switchImgTo(TONGUE_OUT_IMG);
   });
   
   $('button').mouseup(function() {
-    $('#mlem-pic').attr('src', TONGUE_IN_IMG);
+    switchImgTo(TONGUE_IN_IMG);
   });
 
 });
