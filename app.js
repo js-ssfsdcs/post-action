@@ -2,6 +2,8 @@ const port = process.env.PORT || 5000
 const express = require('express')
 const app = express()
 const bodyParser = require('body-parser')
+const https = require('https')
+const fs = require('fs')
 
 function allowCORS(response) {
     response.header('Access-Control-Allow-Origin', '*')
@@ -47,4 +49,9 @@ app.post(['/','/accepts'], function (request, response) {
 
 app.use(express.static('public'))
 
-app.listen(port, () => console.log(`Example app listening at http://localhost:${port}`))
+https.createServer({
+    key: fs.readFileSync('server.key'),
+    cert: fs.readFileSync('server.cert')
+}, app).listen(443, () => {
+    console.log('Listening...')
+})
